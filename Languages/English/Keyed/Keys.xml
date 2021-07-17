@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+	<BS_SexualityHeader>Sexuality</BS_SexualityHeader>
+	<BS_SexualityLabel>Orientation</BS_SexualityLabel>
+	<BS_GenderLabel>Gender Identity</BS_GenderLabel>
+
+	<!-- Sexualities -->
+	<BS_Straight>Heterosexual</BS_Straight>
+	<BS_Straight_Tip>Heterosexuality is romantic attraction, sexual attraction or sexual behavior between persons of the opposite sex or gender.</BS_Straight_Tip>
+	<BS_Gay>Homosexual</BS_Gay>
+	<BS_Gay_Tip>Homosexuality is romantic attraction, sexual attraction, or sexual behavior between members of the same sex or gender.</BS_Gay_Tip>
+	<BS_Bisexual>Bisexual</BS_Bisexual>
+	<BS_Bisexual_Tip>Bisexuality is romantic attraction, sexual attraction, or sexual behavior toward both males and females, or to more than one gender.</BS_Bisexual_Tip>
+	<BS_Pansexual>Pansexual</BS_Pansexual>
+	<BS_Pansexual_Tip>Pansexuality is sexual, romantic, or emotional attraction towards people regardless of their sex or gender identity.</BS_Pansexual_Tip>
+	<BS_Asexual>Asexual</BS_Asexual>
+	<BS_Asexual_Tip>Asexuality is the lack of sexual attraction to others, or low or absent interest in or desire for sexual activity.</BS_Asexual_Tip>
+
+	<!-- Sexualities -->
+	<BS_Cisgender>Cisgender</BS_Cisgender>
+	<BS_Cisgender_Tip>A cisgender person is a person whose gender identity matches their sex assigned at birth.</BS_Cisgender_Tip>
+	<BS_Transgender>Transgender</BS_Transgender>
+	<BS_Transgender_Tip>Transgender people have a gender identity or gender expression that differs from the sex that they were assigned at birth.</BS_Transgender_Tip>
+	<BS_Nonbinary>Non-binary</BS_Nonbinary>
+	<BS_Nonbinary_Tip>Non-binary or genderqueer is an umbrella term for gender identities that are neither male nor female‍—‌identities that are outside the gender binary.</BS_Nonbinary_Tip>
+
+
+</LanguageData>
