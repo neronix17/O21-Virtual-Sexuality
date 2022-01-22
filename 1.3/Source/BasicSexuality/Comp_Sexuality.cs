@@ -8,7 +8,7 @@ using UnityEngine;
 using RimWorld;
 using Verse;
 
-namespace BasicSexuality
+namespace VirtualSexuality
 {
     public class Comp_Sexuality : ThingComp
     {

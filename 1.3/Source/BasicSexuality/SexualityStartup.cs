@@ -8,7 +8,7 @@ using UnityEngine;
 using RimWorld;
 using Verse;
 
-namespace BasicSexuality
+namespace VirtualSexuality
 {
     [StaticConstructorOnStartup]
     public static class SexualityStartup
@@ -22,7 +22,7 @@ namespace BasicSexuality
         {
             if (Prefs.DevMode)
             {
-                Log.Message($"Patching BS onto humanlike races...");
+                Log.Message($"VS :: Virtual Sexuality :: Patching VS onto humanlike races...");
             }
 
             foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
@@ -36,7 +36,7 @@ namespace BasicSexuality
                     thingDef.comps.Add(new CompProperties_Sexuality());
                     if (Prefs.DevMode)
                     {
-                        Log.Message($"=> {thingDef.defName} Patched");
+                        Log.Message($"VS :: {thingDef.defName} :: Sexuality Patched");
                     }
                 }
             }

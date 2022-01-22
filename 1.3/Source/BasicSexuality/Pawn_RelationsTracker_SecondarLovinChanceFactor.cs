@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,7 +12,7 @@ using Verse;
 
 using HarmonyLib;
 
-namespace BasicSexuality
+namespace VirtualSexuality
 {
 
     [HarmonyPatch(typeof(Pawn_RelationsTracker), "SecondaryLovinChanceFactor", null)]
@@ -19,6 +21,7 @@ namespace BasicSexuality
         public static bool Prefix(Pawn otherPawn, ref float __result, ref Pawn_RelationsTracker __instance)
         {
             Pawn pawn = __instance.pawn;
+
             float result;
             if (pawn.def != otherPawn.def || pawn == otherPawn)
             {
@@ -26,53 +29,50 @@ namespace BasicSexuality
             }
             else
             {
-                if (pawn.story != null && pawn.story.traits != null)
+                Comp_Sexuality pawnSexuality = pawn.TryGetComp<Comp_Sexuality>();
+                if (pawnSexuality.sexuality == Sexuality.Asexual)
                 {
-                    if (pawn.story.traits.HasTrait(TraitDefOf.Asexual))
-                    {
-                        result = 0f;
-                    }
+                    result =  0f;
+                }
 
-                    if (!pawn.story.traits.HasTrait(TraitDefOf.Bisexual))
+                else if (pawn.gender != otherPawn.gender)
+                {
+                    if (pawn.gender == Gender.None || pawn.gender == Gender.None)
                     {
-                        if (pawn.story.traits.HasTrait(TraitDefOf.Gay))
+                        if(pawnSexuality.sexuality != Sexuality.Pansexual)
                         {
-                            if (otherPawn.gender != pawn.gender)
-                            {
-                                result = 0f;
-                            }
+                            result = 0f;
                         }
-                        else
+                    }
+                    else
+                    {
+                        if(pawnSexuality.sexuality != Sexuality.Straight
+                            && pawnSexuality.sexuality != Sexuality.Pansexual
+                            && pawnSexuality.sexuality != Sexuality.Bisexual)
                         {
-                            if (otherPawn.gender == pawn.gender)
-                            {
-                                result = 0f;
-                            }
+                            result = 0f;
                         }
                     }
                 }
+                else if (pawn.gender == otherPawn.gender)
+                {
+                    if (pawnSexuality.sexuality != Sexuality.Gay
+                        && pawnSexuality.sexuality != Sexuality.Pansexual
+                        && pawnSexuality.sexuality != Sexuality.Bisexual)
+                    {
+                        result = 0f;
+                    }
+                }
 
-                float myAge = pawn.ageTracker.AgeBiologicalYearsFloat;
-                float otherPawnAge = otherPawn.ageTracker.AgeBiologicalYearsFloat;
-                if (myAge < 18f || otherPawnAge < 18f)
+                float pawnAge = pawn.ageTracker.AgeBiologicalYearsFloat;
+                float targetAge = otherPawn.ageTracker.AgeBiologicalYearsFloat;
+                if (pawnAge < 18f || targetAge < 18f)
                 {
                     result = 0f;
                 }
                 else
                 {
-                    float ageFactor = 1f;
-                    if (pawn.gender == Gender.Male)
-                    {
-                        ageFactor = GenMath.FlatHill(0.2f, myAge - 30f, myAge - 10f, myAge + 3f, myAge + 10f, 0.2f, otherPawnAge);
-                    }
-                    else
-                    {
-                        if (pawn.gender == Gender.Female)
-                        {
-                            ageFactor = GenMath.FlatHill(0.2f, myAge - 10f, myAge - 3f, myAge + 10f, myAge + 30f, 0.2f,
-                                otherPawnAge);
-                        }
-                    }
+                    float ageFactor = CalculateAgeFactor(pawnAge, targetAge);
 
                     float prettiness = 0f;
                     if (otherPawn.RaceProps.Humanlike)
@@ -93,7 +93,7 @@ namespace BasicSexuality
                         }
                     }
 
-                    float final = ageFactor * Mathf.InverseLerp(16f, 18f, myAge) * Mathf.InverseLerp(16f, 18f, otherPawnAge) * prettinessFactor;
+                    float final = ageFactor * Mathf.InverseLerp(16f, 18f, pawnAge) * Mathf.InverseLerp(16f, 18f, targetAge) * prettinessFactor;
                     result = final;
                 }
 
@@ -103,6 +103,13 @@ namespace BasicSexuality
 
             __result = result;
             return true;
+        }
+
+        public static float CalculateAgeFactor(float pawnAge, float targetAge)
+        {
+            float min = (pawnAge / 2.0f) + 7.0f;
+            float max = pawnAge + 10.0f;
+            return GenMath.FlatHill(0.2f, min, Mathf.Lerp(min, pawnAge, 0.6f), Mathf.Lerp(pawnAge, max, 0.4f), max, 0.2f, targetAge);
         }
     }
 }

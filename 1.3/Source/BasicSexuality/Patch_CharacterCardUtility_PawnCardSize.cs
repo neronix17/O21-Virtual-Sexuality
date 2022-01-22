@@ -10,7 +10,7 @@ using Verse;
 
 using HarmonyLib;
 
-namespace BasicSexuality
+namespace VirtualSexuality
 {
     [HarmonyPatch(typeof(CharacterCardUtility), "PawnCardSize")]
     public static class Patch_CharacterCardUtility_PawnCardSize
