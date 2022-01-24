@@ -24,29 +24,32 @@ namespace VirtualSexuality
         {
             base.ExposeData();
             Scribe_Collections.Look<SexualityWeight>(ref sexualityWeighted, "sexualityWeighted", LookMode.Deep);
-            if (sexualityWeighted.NullOrEmpty())
-            {
-                sexualityWeighted.Add(new SexualityWeight(Sexuality.Straight, 80));
-                sexualityWeighted.Add(new SexualityWeight(Sexuality.Gay, 20));
-                sexualityWeighted.Add(new SexualityWeight(Sexuality.Bisexual, 20));
-                sexualityWeighted.Add(new SexualityWeight(Sexuality.Pansexual, 20));
-                sexualityWeighted.Add(new SexualityWeight(Sexuality.Asexual, 5));
-            }
 
             Scribe_Values.Look(ref interspeciesMonsterMash, "interspeciesMonsterMash", 0.00f);
             Scribe_Values.Look(ref interspeciesWithXenophile, "interspeciesWithXenophile", true);
         }
     }
 
-    public class SexualityWeight
+    public class SexualityWeight : IExposable
     {
         public Sexuality sexuality;
-        public int weight;
+        public float weight;
 
-        public SexualityWeight(Sexuality sexuality, int weight)
+        public SexualityWeight()
+        {
+        }
+
+        public SexualityWeight(Sexuality sexuality, float weight)
         {
             this.sexuality = sexuality;
             this.weight = weight;
+        }
+
+        public void ExposeData()
+        {
+            Scribe_Values.Look(ref sexuality, "sexuality", Sexuality.Straight);
+            Scribe_Values.Look(ref weight, "weight", 0.2f);
+
         }
     }
 }

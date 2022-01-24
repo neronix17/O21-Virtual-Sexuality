@@ -88,6 +88,10 @@ namespace VirtualSexuality
                             interspeciesModifier = 0.5f;
                         }
                     }
+                    else
+                    {
+                        interspeciesModifier = 0f;
+                    }
                 }
             }
             return interspeciesModifier *= SexualityMod.settings.interspeciesMonsterMash;

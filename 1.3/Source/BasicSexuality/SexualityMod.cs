@@ -41,31 +41,23 @@ namespace VirtualSexuality
         {
             Listing_Standard listing = new Listing_Standard()
             {
-                ColumnWidth = inRect.width / 2f
+                //ColumnWidth = inRect.width / 2f
             };
+            listing.Begin(inRect);
             listing.Label("Sexuality Weighting");
             listing.GapLine();
             for (int i = 0; i < settings.sexualityWeighted.Count; i++)
             {
-                
-                int intBufferInt = settings.sexualityWeighted[i].weight;
-                string intBufferString = intBufferInt.ToString();
-                listing.TextFieldNumericLabeled(SexualityUtils.GetSexualityTranslatable(settings.sexualityWeighted[i].sexuality).Translate(), ref intBufferInt, ref intBufferString, 0, 100);
-                settings.sexualityWeighted[i].weight = intBufferInt;
+                listing.AddLabeledSlider(SexualityUtils.GetSexualityTranslatable(settings.sexualityWeighted[i].sexuality).Translate() + ": " + settings.sexualityWeighted[i].weight, ref settings.sexualityWeighted[i].weight, 0.0f, 1.0f, "Min: 0", "Max: 100", 0.01f);
             }
             listing.GapLine();
             listing.Label("Interspecies (Alien Race Compat.)");
             listing.GapLine();
             {
-                Rect rectInterspecies = listing.GetRect(18);
-                Rect rectInterspeciesLeft = rectInterspecies.LeftHalf().Rounded();
-                Rect rectInterspeciesRight = rectInterspecies.RightHalf().Rounded();
-                Text.Anchor = TextAnchor.MiddleRight;
-                Widgets.Label(rectInterspeciesLeft, "Chance of Interpecies Monster Mash");
-                Text.Anchor = TextAnchor.UpperLeft;
-                Widgets.TextFieldPercent(inRect, ref settings.interspeciesMonsterMash, ref settings.interspeciesMonsterMash_buffer, 0f, 1f);
+                listing.AddLabeledSlider("Chance of Interpecies Monster Mash: " + settings.interspeciesMonsterMash.ToStringPercent(), ref settings.interspeciesMonsterMash, 0.0f, 1.0f, "Min: 0%", "Max: 100%", 0.01f);
+                listing.CheckboxEnhanced("Interspecies with Xenophile Trait", "If enabled, only pawns with the xenophile trait will attempt interspecies romance, the chance above is still used as a modifier to this.", ref settings.interspeciesWithXenophile);
             }
-            listing.CheckboxEnhanced("Interspecies with Xenophile Trait", "Controls if pawns with the xenophile trait will bang, if true this will override the base chance above.", ref settings.interspeciesWithXenophile);
+            listing.End();
 
             base.DoSettingsWindowContents(inRect);
         }

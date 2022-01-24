@@ -40,6 +40,17 @@ namespace VirtualSexuality
                     }
                 }
             }
+
+            SexualitySettings settings = SexualityMod.settings;
+            if (settings.sexualityWeighted.NullOrEmpty())
+            {
+                settings.sexualityWeighted = new List<SexualityWeight>();
+                settings.sexualityWeighted.Add(new SexualityWeight(Sexuality.Straight, 1f));
+                settings.sexualityWeighted.Add(new SexualityWeight(Sexuality.Gay, 0.2f));
+                settings.sexualityWeighted.Add(new SexualityWeight(Sexuality.Bisexual, 0.2f));
+                settings.sexualityWeighted.Add(new SexualityWeight(Sexuality.Pansexual, 0.2f));
+                settings.sexualityWeighted.Add(new SexualityWeight(Sexuality.Asexual, 0.05f));
+            }
         }
     }
 }
